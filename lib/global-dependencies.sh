@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-# ==============================================================================
-#  ArchGuard Tools — Global Variables & Functions
-# ==============================================================================
-#  lib/global-dependencies.sh
-#
-#  Sources shared library functions used across Tools/*.sh scripts.
-# ==============================================================================
 
-TOOLS_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-TOOLS_LIB="$TOOLS_ROOT/lib"
+# ------------------------------------------------------------------------------
+# ArchGuard Tools — Global Dependencies
+# ------------------------------------------------------------------------------
+# lib/global-dependencies.sh
+# ------------------------------------------------------------------------------
+
+SCRIPT_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+TOOLS_LIB="$SCRIPT_ROOT/lib"
 
 log_tools()
 {
@@ -17,5 +16,7 @@ log_tools()
 
 for file in "$TOOLS_LIB"/*.sh; do
     [[ -f "$file" ]] || continue
+    [[ "$file" == "$BASH_SOURCE" ]] && continue
+
     source "$file"
 done

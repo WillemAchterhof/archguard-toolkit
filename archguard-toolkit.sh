@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# ArchGuard Post-Install
+# ------------------------------------------------------------------------------
+# /root-run.sh
+
+set -Eeuo pipefail
+
+# Variables
+ROOT_TOOLS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_LIB="$ROOT_TOOLS/lib"
+ROOT_BACKUP="$ROOT_TOOLS/backup"
+ROOT_MENU="$ROOT_TOOLS/menu"
+
+
+# Module Entry Points
+source "$ROOT_MENU/menu-run.sh"
+source "$ROOT_BACKUP/backup-configs.sh"
+# source "$ROOT_LOAD_CONFIGURATIONS/run.sh"
+
+
+# Run
+
+menu_render
+
+while true; do
+    key=""
+
+    if ! read -rsn1 key; then
+        continue
+    fi
+
+    case "$key" in
+        z)
+            break
+            ;;
+        *)
+            menu_handle_input "$key"
+            ;;
+    esac
+
+    menu_render
+done

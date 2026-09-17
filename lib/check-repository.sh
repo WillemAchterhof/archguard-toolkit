@@ -21,16 +21,16 @@ check_repository()
     cd -- "$target_dir"
 
     if [[ ! -d .git ]]; then
-        log_toolkit "Repository not initialized, initializing..."
+        printf "Repository not initialized, initializing..."
         git init
         git remote add origin "$repo_url"
     fi
 
     git ls-remote origin >/dev/null 2>&1 \
         || {
-            log_toolkit "ERROR: Unable to reach repository: $repo_url"
+            printf "ERROR: Unable to reach repository: $repo_url"
             return 1
         }
 
-    log_toolkit "Repository access confirmed: $repository"
+    printf "Repository access confirmed: $repository"
 }

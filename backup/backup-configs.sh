@@ -9,21 +9,21 @@
 set -Eeuo pipefail
 
 # Dependencies
-source 
-
+source "$ROOT_LIB/check-internet.sh"
+source "$ROOT_LIB/check-repository.sh"
+source "$ROOT_LIB/git.sh"
 
 backup_configs()
 {
     local commit_message
 
     check_internet
-    check_repository "archguard-configs" "$BACKUP_ROOT"
-
+    printf "\n"
+    check_repository "archguard-configs" "$ROOT_BACKUP"
+    printf "\n"
     commit_message="$(read_commit_message)"
-
-    bash "$BACKUP_ROOT/backup-run.sh" "$commit_message"
-
+    printf "\n"
+    git_push "$commit_message"
+    printf "\n"
     printf "Config backup completed"
 }
-
-backup_configs

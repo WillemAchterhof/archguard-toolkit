@@ -29,8 +29,7 @@ menu_render()
 
         printf "   [%s] %-25s : %s\n" \
             "$option" \
-            "$description" \
-            "${!variable}"
+            "$description" 
     done
 
     printf "\n"

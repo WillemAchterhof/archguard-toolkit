@@ -5,10 +5,13 @@
 # ------------------------------------------------------------------------------
 # /menu/modules/menu-tpm.sh
 
-enroll_tpm()
+menu_enroll_tpm()
 {
-    sudo bash "$ROOT_TOOLS/tpm-management/enroll-tpm.sh"
+    sudo bash -c '
+        source "$1"
+        enroll_tpm
+    ' _ "$(dirname "$ROOT_MENU")/tpm-management/enroll-tpm.sh"
 }
 
-MENU_OPTIONS[a]="enroll_tpm|Enroll TPM|"
+MENU_OPTIONS[a]="menu_enroll_tpm|Enroll TPM|"
 MENU_KEY="a"

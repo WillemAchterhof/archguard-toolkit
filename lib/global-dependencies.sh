@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
-# ArchGuard Tools — Global Dependencies
+# ArchGuard Toolkit — Global Dependencies
 # ------------------------------------------------------------------------------
 # lib/global-dependencies.sh
 # ------------------------------------------------------------------------------
@@ -11,7 +11,7 @@ TOOLS_LIB="$SCRIPT_ROOT/lib"
 
 log_tools()
 {
-    printf '[ArchGuard Tools] %s\n' "$*"
+    printf '[ArchGuard Toolkit] %s\n' "$*"
 }
 
 for file in "$TOOLS_LIB"/*.sh; do

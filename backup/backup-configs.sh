@@ -8,13 +8,13 @@
 
 set -Eeuo pipefail
 
-BACKUP_ROOT="$SCRIPT_ROOT/backup"
+# Dependencies
+source 
+
 
 backup_configs()
 {
     local commit_message
-
-    log_tools "Starting config backup"
 
     check_internet
     check_repository "archguard-configs" "$BACKUP_ROOT"
@@ -23,7 +23,7 @@ backup_configs()
 
     bash "$BACKUP_ROOT/backup-run.sh" "$commit_message"
 
-    log_tools "Config backup completed"
+    printf "Config backup completed"
 }
 
 backup_configs

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
-# ArchGuard Tools — Git Functions
+# ArchGuard Toolkit — Git Functions
 # ------------------------------------------------------------------------------
 # lib/git.sh
 # ------------------------------------------------------------------------------
@@ -14,7 +14,7 @@ read_commit_message()
 
     [[ -n "$message" ]] \
         || {
-            log_tools "ERROR: Commit message cannot be empty"
+            printf "ERROR: Commit message cannot be empty"
             return 1
         }
 
@@ -27,7 +27,7 @@ git_push()
 
     [[ -n "$commit_message" ]] \
         || {
-            log_tools "ERROR: Commit message cannot be empty"
+            printf "ERROR: Commit message cannot be empty"
             return 1
         }
 

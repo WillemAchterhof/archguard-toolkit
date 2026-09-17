@@ -13,8 +13,6 @@ MENU_MODULES="$ROOT_MENU/modules"
 declare -A MENU_OPTIONS
 
 for module in "$MENU_MODULES"/menu-*.sh; do
-    [[ "$module" == "$MENU_MODULES/menu-select_custom.sh" ]] && continue
-
     source "$module"
     MENU_ORDER+=("$MENU_KEY")
 done

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-#  ArchGuard Tools — Repository Check
+#  ArchGuard Toolkit — Repository Check
 # ==============================================================================
 #  lib/check-repository.sh
 #
@@ -17,22 +17,20 @@ check_repository()
     local target_dir="${2:?ERROR: target directory required}"
     local repo_url="https://github.com/WillemAchterhof/${repository}.git"
 
-    log_tools "Checking repository access: $repository"
-
     mkdir -p -- "$target_dir"
     cd -- "$target_dir"
 
     if [[ ! -d .git ]]; then
-        log_tools "Repository not initialized, initializing..."
+        log_toolkit "Repository not initialized, initializing..."
         git init
         git remote add origin "$repo_url"
     fi
 
     git ls-remote origin >/dev/null 2>&1 \
         || {
-            log_tools "ERROR: Unable to reach repository: $repo_url"
+            log_toolkit "ERROR: Unable to reach repository: $repo_url"
             return 1
         }
 
-    log_tools "Repository access confirmed: $repository"
+    log_toolkit "Repository access confirmed: $repository"
 }

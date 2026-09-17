@@ -16,7 +16,7 @@ menu_render()
     clear
 
     printf "================================================================================\n"
-    printf " ArchGuard System Tools\n"
+    printf " ArchGuard Toolkit\n"
     printf "================================================================================\n"
     printf "\n"
 

@@ -8,10 +8,10 @@
 set -Eeuo pipefail
 
 # Variables
-ROOT_TOOLS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_LIB="$ROOT_TOOLS/lib"
-ROOT_BACKUP="$ROOT_TOOLS/backup"
-ROOT_MENU="$ROOT_TOOLS/menu"
+ROOT_TOOLKIT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_LIB="$ROOT_TOOLKIT/lib"
+ROOT_BACKUP="$ROOT_TOOLKIT/backup"
+ROOT_MENU="$ROOT_TOOLKIT/menu"
 
 
 # Module Entry Points

@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 # ArchGuard Configs — Entry Point
 # ------------------------------------------------------------------------------
-# backup-configs.sh
+# /backup-configs/backup-configs.sh
 # ------------------------------------------------------------------------------
 
 set -Eeuo pipefail
@@ -21,10 +21,14 @@ backup_configs()
     check_internet
     printf "\n"
 
-    check_repository "archguard-configs" "$ROOT_BACKUP"
+    check_repository \
+        "archguard-configs" \
+        "$ROOT_BACKUP/.archguard-configs"
     printf "\n"
 
-    backup_copy
+    backup_copy \
+        "$ROOT_BACKUP/backup-configs.env" \
+        "$ROOT_BACKUP/.archguard-configs"
     printf "\n"
 
     commit_message="$(read_commit_message)"

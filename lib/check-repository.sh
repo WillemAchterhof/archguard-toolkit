@@ -1,15 +1,9 @@
 #!/usr/bin/env bash
-# ==============================================================================
-#  ArchGuard Toolkit — Repository Check
-# ==============================================================================
-#  lib/check-repository.sh
-#
-#  Provides:
-#    check_repository <repository> <target_dir>
-#
-#  Initializes target_dir as a git repo pointing at the given GitHub
-#  repository (if not already), then verifies it's reachable.
-# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Check Repository
+# ------------------------------------------------------------------------------
+# /lib/check-repository.sh
 
 check_repository()
 {
@@ -21,16 +15,17 @@ check_repository()
     cd -- "$target_dir"
 
     if [[ ! -d .git ]]; then
-        printf "Repository not initialized, initializing..."
+        printf "Repository not initialized, initializing...\n"
+
         git init
         git remote add origin "$repo_url"
     fi
 
     git ls-remote origin >/dev/null 2>&1 \
         || {
-            printf "ERROR: Unable to reach repository: $repo_url"
+            printf "ERROR: GitHub repository unavailable: %s\n" "$repo_url"
             return 1
         }
 
-    printf "Repository access confirmed: $repository"
+    printf "Repository access confirmed: %s\n" "$repository"
 }

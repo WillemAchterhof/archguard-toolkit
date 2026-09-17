@@ -3,25 +3,31 @@
 # ------------------------------------------------------------------------------
 # Backup Copy
 # ------------------------------------------------------------------------------
-# /Tools/Backup/backup-copy.sh
+# /lib/backup-copy.sh
 
 backup_copy()
 {
+    local config_file="$1"
+    local target_root="$2"
+    local backup
     local source
     local target
 
-    for source in "${BACKUP_CONFIGS[@]}"; do
+    source "$config_file"
+
+    for backup in "${BACKUP_CONFIGS[@]}"; do
+        IFS='|' read -r source target <<< "$backup"
+
         [[ -e "$source" ]] || {
             printf "WARNING: Backup source not found: %s\n" "$source"
             continue
         }
 
-        target="$ROOT_BACKUP${source#$HOME}"
+        target="$target_root/$target"
 
         mkdir -p -- "$(dirname "$target")"
-
         cp -a -- "$source" "$target"
 
-        printf "Copied: %s\n" "$source"
+        printf "Copied: %s -> %s\n" "$source" "$target"
     done
 }

@@ -1,3 +1,12 @@
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# Toolkit Update
+# ------------------------------------------------------------------------------
+# /lib/toolkit-update.sh
+
+
+
 toolkit_local_commit()
 {
     local version_file="$ROOT_TOOLKIT/.toolkit-version"

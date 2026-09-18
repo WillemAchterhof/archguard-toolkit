@@ -20,19 +20,14 @@ backup_configs()
     local commit_message
 
     check_internet
-    printf "\n"
 
     check_repository \
         "$repository" \
         "force-remote"
 
-    printf "\n"
-
     backup_copy \
         "$ROOT_BACKUP/backup-configs.env" \
         "$repository"
-
-    printf "\n"
 
     if [[ -z "$(git -C "$repository" status --porcelain)" ]]; then
         MENU_OPTIONS[b]="backup_configs|Backup Configs|No updates in configs."
@@ -40,10 +35,8 @@ backup_configs()
     fi
 
     commit_message="$(read_commit_message)"
-    printf "\n"
 
     git_push "$commit_message"
-    printf "\n"
 
     MENU_OPTIONS[b]="backup_configs|Backup Configs|New config files uploaded."
 }

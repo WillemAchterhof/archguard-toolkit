@@ -1,13 +1,8 @@
-#!/usr/bin/env bash
-
-# ------------------------------------------------------------------------------
-# Toolkit Update
-# ------------------------------------------------------------------------------
-# /lib/toolkit-update.sh
-
 toolkit_local_commit()
 {
-    git -C "$ROOT_TOOLKIT" rev-parse HEAD
+    local version_file="$ROOT_TOOLKIT/.toolkit-version"
+
+    [[ -f "$version_file" ]] && cat "$version_file"
 }
 
 toolkit_remote_commit()
@@ -40,6 +35,7 @@ toolkit_download()
 toolkit_install()
 {
     local source_dir="$1"
+    local remote_commit="$2"
 
     rm -rf -- \
         "$ROOT_TOOLKIT"/* \
@@ -47,6 +43,9 @@ toolkit_install()
         "$ROOT_TOOLKIT"/..?*
 
     cp -a -- "$source_dir"/. "$ROOT_TOOLKIT"/
+    rm -rf -- "$ROOT_TOOLKIT/.git"
+
+    printf '%s\n' "$remote_commit" > "$ROOT_TOOLKIT/.toolkit-version"
 }
 
 toolkit_restart()
@@ -83,7 +82,7 @@ toolkit_update()
         return 1
     }
 
-    toolkit_install "$temp_dir"
+    toolkit_install "$temp_dir" "$remote_commit"
     rm -rf -- "$temp_dir"
 
     printf "Toolkit updated\n"

@@ -18,6 +18,7 @@ ROOT_TPM="$ROOT_TOOLKIT/tpm-management"
 source "$ROOT_MENU/menu-run.sh"
 source "$ROOT_BACKUP/backup-configs.sh"
 source "$ROOT_TPM/enroll-tpm.sh"
+source "$ROOT_LIB/toolkit-update.sh"
 
 
 # Run

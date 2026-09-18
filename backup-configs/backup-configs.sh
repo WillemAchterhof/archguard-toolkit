@@ -16,20 +16,30 @@ source "$ROOT_LIB/backup-copy.sh"
 
 backup_configs()
 {
+    local repository="$ROOT_BACKUP/.archguard-configs"
     local commit_message
 
     check_internet
     printf "\n"
 
     check_repository \
-        "archguard-configs" \
-        "$ROOT_BACKUP/.archguard-configs"
+        "$repository" \
+        "force-remote"
+
     printf "\n"
 
     backup_copy \
         "$ROOT_BACKUP/backup-configs.env" \
-        "$ROOT_BACKUP/.archguard-configs"
+        "$repository"
+
     printf "\n"
+
+    if [[ -z "$(git -C "$repository" status --porcelain)" ]]; then
+        printf "All configs are up to date.\n"
+        return 0
+    fi
+
+    printf "Config changes detected.\n\n"
 
     commit_message="$(read_commit_message)"
     printf "\n"
@@ -37,5 +47,5 @@ backup_configs()
     git_push "$commit_message"
     printf "\n"
 
-    printf "Config backup completed\n"
+    printf "New config files uploaded.\n"
 }

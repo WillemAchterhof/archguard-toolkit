@@ -19,8 +19,6 @@ backup_configs()
     local repository="$ROOT_BACKUP/.archguard-configs"
     local commit_message
 
-    check_internet
-
     check_repository \
         "$repository" \
         "force-remote"

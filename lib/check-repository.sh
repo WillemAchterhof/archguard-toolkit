@@ -12,7 +12,13 @@ check_local()
     mkdir -p -- "$target_dir"
 
     if [[ ! -d "$target_dir/.git" ]]; then
-        git -C "$target_dir" init >/dev/null
+        printf "Initializing repository: %s\n" "$target_dir"
+
+        git -C "$target_dir" init >/dev/null \
+            || {
+                printf "ERROR: Unable to initialize repository\n"
+                return 1
+            }
     fi
 }
 
@@ -28,12 +34,24 @@ check_remote()
     repo_url="https://github.com/WillemAchterhof/${repository}.git"
 
     if ! git -C "$target_dir" remote get-url origin >/dev/null 2>&1; then
-        git -C "$target_dir" remote add origin "$repo_url"
+        git -C "$target_dir" remote add origin "$repo_url" \
+            || {
+                printf "ERROR: Unable to add remote repository\n"
+                return 1
+            }
     else
-        git -C "$target_dir" remote set-url origin "$repo_url"
+        git -C "$target_dir" remote set-url origin "$repo_url" \
+            || {
+                printf "ERROR: Unable to set remote repository\n"
+                return 1
+            }
     fi
 
-    git -C "$target_dir" fetch origin >/dev/null 2>&1
+    git -C "$target_dir" fetch origin \
+        || {
+            printf "ERROR: Unable to fetch remote repository\n"
+            return 1
+        }
 }
 
 sync_repo()
@@ -55,27 +73,37 @@ sync_repo()
             return 1
         }
 
-    local_commit="$(git -C "$target_dir" rev-parse HEAD 2>/dev/null || true)"
-    remote_commit="$(git -C "$target_dir" rev-parse "origin/$branch")"
+    local_commit="$(
+        git -C "$target_dir" rev-parse HEAD 2>/dev/null || true
+    )"
+
+    remote_commit="$(
+        git -C "$target_dir" rev-parse "origin/$branch"
+    )"
 
     if [[ "$local_commit" == "$remote_commit" ]]; then
         return 0
     fi
 
     if [[ "$policy" == "force-remote" ]]; then
-        git -C "$target_dir" checkout -B "$branch" "origin/$branch" >/dev/null 2>&1 \
+        printf "Synchronizing local repository with remote...\n"
+
+        git -C "$target_dir" checkout -B "$branch" "origin/$branch" \
+            >/dev/null 2>&1 \
             || {
                 printf "ERROR: Unable to checkout remote branch\n"
                 return 1
             }
 
-        git -C "$target_dir" reset --hard "origin/$branch" >/dev/null 2>&1 \
+        git -C "$target_dir" reset --hard "origin/$branch" \
+            >/dev/null 2>&1 \
             || {
                 printf "ERROR: Unable to reset repository\n"
                 return 1
             }
 
-        git -C "$target_dir" clean -fd >/dev/null 2>&1 \
+        git -C "$target_dir" clean -fd \
+            >/dev/null 2>&1 \
             || {
                 printf "ERROR: Unable to clean repository\n"
                 return 1

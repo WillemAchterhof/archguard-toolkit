@@ -36,7 +36,7 @@ menu_render()
     printf "\n"
     printf " Actions\n"
     printf " ────────────────────────────────────────────────────────────────────────────────\n"
-    printf " [z] Exit\n"
+    printf " [z] Exit         [u] Update Toolkit\n"
     printf "\n"
     printf "================================================================================\n"
 }

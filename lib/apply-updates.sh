@@ -14,5 +14,5 @@ apply_updates()
         "$ROOT_BACKUP/.archguard-configs" \
         "force-remote"
 
-    toolkit_update
+    # toolkit_update
 }

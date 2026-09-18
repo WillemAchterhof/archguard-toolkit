@@ -1,3 +1,85 @@
+```bash
+#!/usr/bin/env bash
+
+# ------------------------------------------------------------------------------
+# Check Repository
+# ------------------------------------------------------------------------------
+# /lib/check-repository.sh
+
+check_local()
+{
+    local target_dir="$1"
+
+    mkdir -p -- "$target_dir"
+    cd -- "$target_dir"
+
+    if [[ ! -d .git ]]; then
+        git init >/dev/null
+    fi
+}
+
+check_remote()
+{
+    local target_dir="$1"
+    local repository
+
+    cd -- "$target_dir"
+
+    repository="$(basename "$target_dir")"
+    repository="${repository#.}"
+
+    if ! git remote get-url origin >/dev/null 2>&1; then
+        git remote add \
+            origin \
+            "https://github.com/WillemAchterhof/${repository}.git"
+    fi
+
+    git fetch origin >/dev/null 2>&1
+}
+
+sync_repo()
+{
+    local target_dir="$1"
+    local policy="${2:-normal}"
+    local branch
+
+    cd -- "$target_dir"
+
+    branch="$(git remote show origin | awk '/HEAD branch/ {print $NF}')"
+
+    [[ -n "$branch" ]] \
+        || {
+            printf "ERROR: Unable to determine remote branch\n"
+            return 1
+        }
+
+    if [[ "$policy" == "force-remote" ]]; then
+        git checkout -B "$branch" "origin/$branch" >/dev/null 2>&1
+        git reset --hard "origin/$branch" >/dev/null 2>&1
+        git clean -fd >/dev/null 2>&1
+        return 0
+    fi
+
+    local local_commit
+    local remote_commit
+
+    local_commit="$(git rev-parse HEAD 2>/dev/null || true)"
+    remote_commit="$(git rev-parse "origin/$branch")"
+
+    [[ "$local_commit" == "$remote_commit" ]] \
+        || printf "WARNING: Repository differs from remote\n"
+}
+
+check_repository()
+{
+    local target_dir="${1:?ERROR: repository path required}"
+    local policy="${2:-normal}"
+
+    check_local "$target_dir" || return 1
+    check_remote "$target_dir" || return 1
+    sync_repo "$target_dir" "$policy" || return 1
+}
+```
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------

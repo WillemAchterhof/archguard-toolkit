@@ -35,11 +35,9 @@ backup_configs()
     printf "\n"
 
     if [[ -z "$(git -C "$repository" status --porcelain)" ]]; then
-        printf "All configs are up to date.\n"
+        MENU_OPTIONS[b]="backup_configs|Backup Configs|No updates in configs."
         return 0
     fi
-
-    printf "Config changes detected.\n\n"
 
     commit_message="$(read_commit_message)"
     printf "\n"
@@ -47,5 +45,5 @@ backup_configs()
     git_push "$commit_message"
     printf "\n"
 
-    printf "New config files uploaded.\n"
+    MENU_OPTIONS[b]="backup_configs|Backup Configs|New config files uploaded."
 }

@@ -35,9 +35,6 @@ while true; do
     fi
 
     case "$key" in
-        u)
-            toolkit_update
-            ;;
         z)
             break
             ;;

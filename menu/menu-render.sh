@@ -23,13 +23,14 @@ menu_render()
     for option in "${MENU_ORDER[@]}"; do
         definition="${MENU_OPTIONS["$option"]:-}"
 
-    [[ -n "$definition" ]] || return 0
+        [[ -n "$definition" ]] || return 0
 
         IFS='|' read -r function description variable <<< "$definition"
 
         printf "   [%s] %-25s : %s\n" \
             "$option" \
-            "$description" 
+            "$description" \
+            "$variable"
     done
 
     printf "\n"

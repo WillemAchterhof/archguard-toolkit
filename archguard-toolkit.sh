@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 # ArchGuard Post-Install
 # ------------------------------------------------------------------------------
-# /root-run.sh
+# /archguard-toolkit.sh
 
 set -Eeuo pipefail
 
@@ -15,14 +15,16 @@ ROOT_MENU="$ROOT_TOOLKIT/menu"
 ROOT_TPM="$ROOT_TOOLKIT/tpm-management"
 
 # Module Entry Points
+source "$ROOT_LIB/apply-updates.sh"
 source "$ROOT_MENU/menu-run.sh"
 source "$ROOT_BACKUP/backup-configs.sh"
 source "$ROOT_TPM/enroll-tpm.sh"
 source "$ROOT_LIB/toolkit-update.sh"
 
+# Updates
+apply_updates
 
 # Run
-
 menu_render
 
 while true; do

@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
@@ -97,4 +96,3 @@ check_repository()
     check_remote "$target_dir" || return 1
     sync_repo "$target_dir" "$policy" || return 1
 }
-```

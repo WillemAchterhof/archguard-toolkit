@@ -7,6 +7,8 @@
 
 set -Eeuo pipefail
 
+TOOLKIT_VERSION="1"
+
 # Variables
 ROOT_TOOLKIT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_LIB="$ROOT_TOOLKIT/lib"

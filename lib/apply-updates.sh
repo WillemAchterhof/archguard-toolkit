@@ -5,14 +5,18 @@
 # ------------------------------------------------------------------------------
 # /lib/apply-updates.sh
 
+source "$ROOT_LIB/check-internet.sh"
 source "$ROOT_LIB/check-repository.sh"
-source "$ROOT_LIB/toolkit-update.sh"
 
 apply_updates()
 {
+    check_internet
+    printf "\n"
+
     check_repository \
         "$ROOT_BACKUP/.archguard-configs" \
         "force-remote"
 
-    # toolkit_update
+    printf "ArchGuard configs synchronized\n"
+    printf "\n"
 }

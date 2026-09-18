@@ -1,75 +1,16 @@
-#!/usr/bin/env bash
-
-# ------------------------------------------------------------------------------
-# Toolkit Update
-# ------------------------------------------------------------------------------
-# /lib/toolkit-update.sh
-
-
-
-toolkit_local_commit()
-{
-    local version_file="$ROOT_TOOLKIT/.toolkit-version"
-
-    [[ -f "$version_file" ]] && cat "$version_file"
-}
-
-toolkit_remote_commit()
-{
-    git ls-remote \
-        https://github.com/WillemAchterhof/archguard-toolkit.git \
-        refs/heads/main |
-        awk '{print $1}'
-}
-
-toolkit_update_needed()
-{
-    local local_commit="$1"
-    local remote_commit="$2"
-
-    [[ "$local_commit" != "$remote_commit" ]]
-}
-
-toolkit_download()
-{
-    local target_dir="$1"
-
-    git clone \
-        --branch main \
-        --depth 1 \
-        https://github.com/WillemAchterhof/archguard-toolkit.git \
-        "$target_dir"
-}
-
-toolkit_install()
-{
-    local source_dir="$1"
-    local remote_commit="$2"
-
-    rm -rf -- \
-        "$ROOT_TOOLKIT"/* \
-        "$ROOT_TOOLKIT"/.[!.]* \
-        "$ROOT_TOOLKIT"/..?*
-
-    cp -a -- "$source_dir"/. "$ROOT_TOOLKIT"/
-    rm -rf -- "$ROOT_TOOLKIT/.git"
-
-    printf '%s\n' "$remote_commit" > "$ROOT_TOOLKIT/.toolkit-version"
-}
-
-toolkit_restart()
-{
-    exec "$ROOT_TOOLKIT/archguard-toolkit.sh"
-}
-
 toolkit_update()
 {
     local local_commit
     local remote_commit
     local temp_dir
 
+    printf "Checking toolkit update...\n"
+
     local_commit="$(toolkit_local_commit)"
+    printf "Local commit:  %s\n" "${local_commit:-none}"
+
     remote_commit="$(toolkit_remote_commit)"
+    printf "Remote commit: %s\n" "${remote_commit:-none}"
 
     [[ -n "$remote_commit" ]] \
         || {
@@ -85,13 +26,18 @@ toolkit_update()
     printf "Toolkit update available\n"
 
     temp_dir="$(mktemp -d)"
+    printf "Temporary directory: %s\n" "$temp_dir"
 
     toolkit_download "$temp_dir" || {
+        printf "ERROR: Toolkit download failed\n"
         rm -rf -- "$temp_dir"
         return 1
     }
 
+    printf "Toolkit downloaded\n"
+
     toolkit_install "$temp_dir" "$remote_commit"
+
     rm -rf -- "$temp_dir"
 
     printf "Toolkit updated\n"

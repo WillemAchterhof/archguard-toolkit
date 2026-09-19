@@ -16,7 +16,7 @@ source "$ROOT_LIB/backup-copy.sh"
 
 backup_configs()
 {
-    local repository="$ROOT_BACKUP/.archguard-configs"
+    local repository="$ROOT_TOOLKIT/archguard-configs"
     local commit_message
 
     check_repository \

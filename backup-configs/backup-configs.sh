@@ -1,3 +1,4 @@
+```bash
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
@@ -17,6 +18,7 @@ source "$ROOT_LIB/backup-copy.sh"
 backup_configs()
 {
     local repository="$ROOT_TOOLKIT/archguard-configs"
+    local config_file="$ROOT_BACKUP/backup-configs.env"
     local commit_message
 
     check_repository \
@@ -24,7 +26,7 @@ backup_configs()
         "force-remote"
 
     backup_copy \
-        "$ROOT_BACKUP/backup-configs.env" \
+        "$config_file" \
         "$repository"
 
     if [[ -z "$(git -C "$repository" status --porcelain)" ]]; then
@@ -34,7 +36,10 @@ backup_configs()
 
     commit_message="$(read_commit_message)"
 
-    git_push "$repository" "$commit_message"
+    git_push \
+        "$repository" \
+        "$commit_message"
 
     MENU_OPTIONS[b]="backup_configs|Backup Configs|New config files uploaded."
 }
+```

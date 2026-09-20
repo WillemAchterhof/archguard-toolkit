@@ -10,14 +10,15 @@ restore_copy()
     local config_file="$1"
     local source_root="$2"
     local backup
-    local source
     local target
+    local source
 
     source "$config_file"
 
     for backup in "${BACKUP_CONFIGS[@]}"; do
         IFS='|' read -r target source <<< "$backup"
 
+        target="$AG_HOME/$target"
         source="$source_root/$source"
 
         [[ -e "$source" ]] || {
@@ -26,6 +27,7 @@ restore_copy()
         }
 
         mkdir -p -- "$(dirname "$target")"
+
         cp -a -- "$source" "$target"
 
         printf "Restored: %s -> %s\n" "$source" "$target"

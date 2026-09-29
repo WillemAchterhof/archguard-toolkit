@@ -7,7 +7,7 @@
 
 set -Eeuo pipefail
 
-readonly AG_TPM_PCRS="0+1+2+4+5+7+12"
+readonly AG_TPM_PCRS="0+1+2+5+7+12"
 readonly AG_TPM_PUBKEY="/etc/systemd/tpm2-pcr-public-key-initrd.pem"
 
 log_tpm()

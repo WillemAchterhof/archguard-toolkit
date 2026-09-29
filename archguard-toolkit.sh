@@ -36,6 +36,7 @@ while true; do
 
     case "$key" in
         z)
+            clear
             break
             ;;
         *)

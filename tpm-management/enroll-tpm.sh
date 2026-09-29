@@ -57,6 +57,7 @@ enroll_tpm()
         --tpm2-pcrs="$AG_TPM_PCRS" \
         --tpm2-public-key="$AG_TPM_PUBKEY" \
         --tpm2-public-key-pcrs=11 \
+        --wipe-slot=tpm2 \
         "$luks_device"
 
     log_tpm "TPM2 enrollment completed"

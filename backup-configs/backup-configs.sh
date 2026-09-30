@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------------
@@ -42,4 +41,3 @@ backup_configs()
 
     MENU_OPTIONS[b]="backup_configs|Backup Configs|New config files uploaded."
 }
-```
